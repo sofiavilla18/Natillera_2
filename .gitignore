@@ -1,0 +1,14 @@
+# Archivos de Visual Studio
+.vs/
+*.user
+*.suo
+
+# Carpetas de compilación
+bin/
+obj/
+
+# Paquetes NuGet descargados
+packages/
+
+# Otros
+*.log

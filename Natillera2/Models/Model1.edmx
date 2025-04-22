@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DbNatilleraModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Administrador">
+          <Key>
+            <PropertyRef Name="idAministrador" />
+          </Key>
+          <Property Name="idAministrador" Type="int" Nullable="false" />
+          <Property Name="Documento" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="NombreCompleto" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Usuario" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Clave" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Salt" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="Eventos">
+          <Key>
+            <PropertyRef Name="idEventos" />
+          </Key>
+          <Property Name="idEventos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idAdministrador" Type="int" Nullable="false" />
+          <Property Name="TipoEvento" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="NombreEvento" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="TotalIngreso" Type="int" Nullable="false" />
+          <Property Name="FechaEvento" Type="date" Nullable="false" />
+          <Property Name="Sede" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActiviadesPlaneadas" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Eventos_Administrador">
+          <End Role="Administrador" Type="Self.Administrador" Multiplicity="1" />
+          <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Administrador">
+              <PropertyRef Name="idAministrador" />
+            </Principal>
+            <Dependent Role="Eventos">
+              <PropertyRef Name="idAdministrador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbNatilleraModelStoreContainer">
+          <EntitySet Name="Administrador" EntityType="Self.Administrador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Eventos_Administrador" Association="Self.FK_Eventos_Administrador">
+            <End Role="Administrador" EntitySet="Administrador" />
+            <End Role="Eventos" EntitySet="Eventos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbNatilleraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Administrador">
+          <Key>
+            <PropertyRef Name="idAministrador" />
+          </Key>
+          <Property Name="idAministrador" Type="Int32" Nullable="false" />
+          <Property Name="Documento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Salt" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Eventos" Relationship="Self.FK_Eventos_Administrador" FromRole="Administrador" ToRole="Eventos" />
+        </EntityType>
+        <EntityType Name="Evento">
+          <Key>
+            <PropertyRef Name="idEventos" />
+          </Key>
+          <Property Name="idEventos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idAdministrador" Type="Int32" Nullable="false" />
+          <Property Name="TipoEvento" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreEvento" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TotalIngreso" Type="Int32" Nullable="false" />
+          <Property Name="FechaEvento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Sede" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ActiviadesPlaneadas" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Administrador" Relationship="Self.FK_Eventos_Administrador" FromRole="Eventos" ToRole="Administrador" />
+        </EntityType>
+        <Association Name="FK_Eventos_Administrador">
+          <End Role="Administrador" Type="Self.Administrador" Multiplicity="1" />
+          <End Role="Eventos" Type="Self.Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Administrador">
+              <PropertyRef Name="idAministrador" />
+            </Principal>
+            <Dependent Role="Eventos">
+              <PropertyRef Name="idAdministrador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbNatilleraEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Administradors" EntityType="Self.Administrador" />
+          <EntitySet Name="Eventos" EntityType="Self.Evento" />
+          <AssociationSet Name="FK_Eventos_Administrador" Association="Self.FK_Eventos_Administrador">
+            <End Role="Administrador" EntitySet="Administradors" />
+            <End Role="Eventos" EntitySet="Eventos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbNatilleraModelStoreContainer" CdmEntityContainer="DbNatilleraEntities1">
+          <EntitySetMapping Name="Administradors">
+            <EntityTypeMapping TypeName="DbNatilleraModel.Administrador">
+              <MappingFragment StoreEntitySet="Administrador">
+                <ScalarProperty Name="idAministrador" ColumnName="idAministrador" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Eventos">
+            <EntityTypeMapping TypeName="DbNatilleraModel.Evento">
+              <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="idEventos" ColumnName="idEventos" />
+                <ScalarProperty Name="idAdministrador" ColumnName="idAdministrador" />
+                <ScalarProperty Name="TipoEvento" ColumnName="TipoEvento" />
+                <ScalarProperty Name="NombreEvento" ColumnName="NombreEvento" />
+                <ScalarProperty Name="TotalIngreso" ColumnName="TotalIngreso" />
+                <ScalarProperty Name="FechaEvento" ColumnName="FechaEvento" />
+                <ScalarProperty Name="Sede" ColumnName="Sede" />
+                <ScalarProperty Name="ActiviadesPlaneadas" ColumnName="ActiviadesPlaneadas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
