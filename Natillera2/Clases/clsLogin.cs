@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.UI.WebControls;
 
 namespace Natillera2.Clases
 {
@@ -20,7 +19,6 @@ namespace Natillera2.Clases
         {
             try
             {
-                clsCypher cifrar = new clsCypher();
                 Administrador administrador = dbNatillera.Administradors.FirstOrDefault(a => a.Usuario == login.Usuario);
                 if (administrador == null)
                 {
@@ -28,9 +26,6 @@ namespace Natillera2.Clases
                     loginRespuesta.Mensaje = "Usuario no existe";
                     return false;
                 }
-                byte[] arrBytesSalt = Convert.FromBase64String(administrador.Salt);
-                string ClaveCifrada = cifrar.HashPassword(login.Clave, arrBytesSalt);
-                login.Clave = ClaveCifrada;
                 return true;
             }
             catch (Exception ex)
@@ -45,6 +40,7 @@ namespace Natillera2.Clases
             try
             {
                 Administrador administrador = dbNatillera.Administradors.FirstOrDefault(a => a.Usuario == login.Usuario && a.Clave == login.Clave);
+                //string clave = administrador.Clave;
                 if (administrador == null)
                 {
                     loginRespuesta.Autenticado = false;
@@ -60,6 +56,8 @@ namespace Natillera2.Clases
                 return false;
             }
         }
+
+
         public IQueryable<LoginRespuesta> Ingresar()
         {
             if (ValidarUsuario() && ValidarClave())
